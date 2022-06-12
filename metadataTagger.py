@@ -19,7 +19,7 @@ def searchFiles(folderpath:str):
         for file in files:
             if file.endswith((".mp3",".wav")):
                 if checkMetaDataExists(os.path.join(root,file)):
-                    print(f"\u001b[31m Metadata exists skipping: {file} \u001b[0m")
+                    print(f"\u001b[33m Metadata exists skipping: {file} \u001b[0m")
                 else:
                     print(f"\u001b[32m Metadata does not exist, Fetching Metadata for: {file} \u001b[0m")
                     getBase64String(os.path.join(root,file))
