@@ -32,7 +32,7 @@ def getBase64String(musicFilePath:str):
     
     #Convert to a temp raw file
     #ffmpeg -i yt_synced_Big\ Iron.mp3 -acodec pcm_s16le -f s16le -ac 1 -ar 44100 -ss 30 -t 7 output.pcm
-    command = f'ffmpeg -i "{musicFilePath}" -acodec pcm_s16le -f s16le -ac 1 -ar 44100 -ss {length/2} -t 7 -y temp.pcm > /dev/null'
+    command = f'ffmpeg -i "{musicFilePath}" -acodec pcm_s16le -f s16le -ac 1 -ar 44100 -ss {length/2} -t 7 -y temp.pcm >/dev/null 2>&1'
     subprocess.Popen(command,shell=True, cwd= os.path.abspath(os.path.dirname(__file__))).wait()
 
     #Read raw binary audio data, convert to base64 string
