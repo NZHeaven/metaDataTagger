@@ -51,13 +51,15 @@ def getMetaData(musicFilePath:str, payload:str):
 	    "X-RapidAPI-Host": "shazam.p.rapidapi.com"
     }
 
-    response = requests.request("POST", url, data=payload, headers=headers).json()
-
-    artist = response['track']['subtitle']
-    #print (response)
-    print("\x1b[6;30;42m" + response['track']['subtitle'] + '\x1b[0m')
-    tagMetaData(musicFilePath,artist,album)
-
+    try:
+        response = requests.request("POST", url, data=payload, headers=headers).json()
+        artist = response['track']['subtitle']
+        #print (response)
+        print("\x1b[6;30;42m" + response['track']['subtitle'] + '\x1b[0m')
+        tagMetaData(musicFilePath,artist,album)
+    except:
+        print(f"\u001b[31m Error Retriving Metadata for: {musicFilePath} [Skipping] \u001b[0m")
+    
 def tagMetaData(musicFilePath:str,artist:str,album:str):
     audio = EasyID3(musicFilePath)
     audio['artist'] = artist
