@@ -6,12 +6,11 @@ import requests
 from mutagen.easyid3 import EasyID3
 import argparse
 
-album = ""
+
 
 def handleArgs():
     parser = argparse.ArgumentParser(description='Scan Designated Folder for Music files and Tag Metadata if missing')
     parser.add_argument('folderpath',type=str,help='Path to Root Folder Containing the Music')
-    parser.add_argument('album', type=str,help='Default Album Name')
     return parser.parse_args() 
 
 def searchFiles(folderpath:str):
@@ -56,14 +55,14 @@ def getMetaData(musicFilePath:str, payload:str):
         artist = response['track']['subtitle']
         #print (response)
         print("\x1b[6;30;42m" + response['track']['subtitle'] + '\x1b[0m')
-        tagMetaData(musicFilePath,artist,album)
+        tagMetaData(musicFilePath,artist)
     except:
         print(f"\u001b[31m Error Retriving Metadata for: {musicFilePath} [Skipping] \u001b[0m")
     
-def tagMetaData(musicFilePath:str,artist:str,album:str):
+def tagMetaData(musicFilePath:str,artist:str):
     audio = EasyID3(musicFilePath)
     audio['artist'] = artist
-    audio['album'] = album
+    audio['album'] = artist
     audio.save() 
 
 def checkMetaDataExists(musicFilePath:str):
@@ -76,5 +75,4 @@ def checkMetaDataExists(musicFilePath:str):
 
 if __name__ == "__main__":
     args = handleArgs()
-    album = args.album
     searchFiles(args.folderpath)
